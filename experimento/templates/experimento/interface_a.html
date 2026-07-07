@@ -292,7 +292,7 @@
     <header>
         <div>
             <h1>TERMINAL OPERACIONAL DE SUPERVISÃO [A]</h1>
-            <div class="meta-info">Sessão: <span>{{ participante.identificador }}</span> | Sistema sob Vigilância Gerencial</div>
+            <div class="meta-info">Sessão: <span>{{ participante.identificador }}</span> | Hora Local: <span id="realtimeClock" style="color: #ef4444; font-weight: bold;">00:00:00</span> | Sistema sob Vigilância Gerencial</div>
         </div>
         <a href="{% url 'selecao' %}" class="nav-back">Menu Principal</a>
     </header>
@@ -307,6 +307,35 @@
             <div class="system-warnings-container">
                 <div class="warn-banner" id="focusWarning">
                     [ALERTA GERENCIAL] Desvio de foco operacional detectado e registrado no sistema de supervisão corporativo. Mantenha sua atenção nesta guia de trabalho.
+                </div>
+                <div class="warn-banner" id="copyPasteWarning">
+                    [ALERTA DE SEGURANÇA] Violação de protocolo detectada! Tentativa de cópia ou colagem de dados bloqueada neste terminal. Digite os dados manualmente.
+                </div>
+            </div>
+
+            <!-- Bloco de Validação de Protocolo Gerencial -->
+            <div class="content-box" id="protocolCard">
+                <h2>Validação de Protocolo Gerencial</h2>
+                <div class="panel-pressure" style="border-color: #ef4444; background-color: rgba(239, 68, 68, 0.03); margin-bottom: 15px;">
+                    <p style="color: #ef4444; font-weight: bold; text-transform: uppercase; font-size: 0.8rem;">[DIRETRIZ DE SEGURANÇA OPERACIONAL NRP-09]</p>
+                    <p id="securityText" style="margin-top: 5px; color: #d0d0d0; font-size: 0.85rem; line-height: 1.5; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;">
+                        De acordo com a Norma Regulamentadora de Produtividade do Departamento (NRP-09), a taxa média de preenchimento de cadastros não deve ultrapassar o limite de tempo estipulado. O código de autenticação único e intransferível desta sessão para validação é: <strong style="color: #ef4444;">SECURITY-PROTO-A74B</strong>. Todas as ações realizadas neste terminal estão sendo registradas pelo setor de segurança cibernética corporativa.
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pergunta1">1. Qual a Norma Regulamentadora citada no texto acima?</label>
+                    <input type="text" id="pergunta1" class="security-input" placeholder="Ex: NRP-00" required autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="pergunta2">2. Qual setor está monitorando as ações deste terminal?</label>
+                    <input type="text" id="pergunta2" class="security-input" placeholder="Ex: Recursos Humanos" required autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="chaveAutenticacao">3. Insira o código de autenticação citado no texto acima para validar a leitura:</label>
+                    <input type="text" id="chaveAutenticacao" class="security-input" placeholder="Copie e cole o código aqui" required autocomplete="off">
                 </div>
             </div>
 
@@ -400,6 +429,39 @@
         </div>
     </div>
 
+    <!-- Modal Desvio de Foco (Troca de Tela) -->
+    <div class="modal-overlay" id="focusModal">
+        <div class="modal-content">
+            <h2>DESVIO DE FOCO DETECTADO</h2>
+            <p>O sistema de segurança operacional identificou que você alternou de aba ou saiu da tela ativa deste terminal. Esta ação viola as normas de foco e produtividade contínua sob auditoria corporativa. Para desbloquear este painel e retomar suas atividades, descreva detalhadamente a justificativa técnica para a saída do ambiente de trabalho.</p>
+            <textarea id="focusJustificativaInput" placeholder="Insira aqui uma justificativa formal e elaborada para a troca de tela..."></textarea>
+            <div>
+                <button type="button" id="liberarFocusBtn">Registrar Justificativa e Restaurar Acesso</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Verificação de Atividade Automática (45 segundos) -->
+    <div class="modal-overlay" id="activityCheckModal">
+        <div class="modal-content">
+            <h2>VERIFICAÇÃO DE PRESENÇA OBRIGATÓRIA</h2>
+            <p>Este terminal está programado para verificar a presença ativa do operador periodicamente. Confirme que você está ativamente trabalhando neste sistema de cadastro.</p>
+            <p style="color: #ef4444; font-weight: bold; font-size: 1.1rem; margin-top: 10px;">Tempo Limite de Resposta: <span id="checkCountdown">10</span> segundos</p>
+            <div style="margin-top: 20px;">
+                <button type="button" id="confirmActivityBtn" style="font-size: 1.1rem; padding: 12px 30px;">SIM, ESTOU ATIVO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Terminal Bloqueado Permanentemente -->
+    <div class="modal-overlay" id="lockdownModal">
+        <div class="modal-content" style="border-color: #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);">
+            <h2 style="color: #ef4444;">TERMINAL BLOQUEADO</h2>
+            <p>O tempo de resposta expirou. Este terminal foi bloqueado permanentemente devido à falta de confirmação de atividade do operador.</p>
+            <p style="color: #ff3333; font-weight: bold;">Contate o administrador do sistema para auditar esta sessão e restabelecer o acesso.</p>
+        </div>
+    </div>
+
     <script>
         // Monitoramento de inatividade (6 segundos)
         let timer;
@@ -408,12 +470,20 @@
         const justificativaInput = document.getElementById('justificativaInput');
         const liberarBtn = document.getElementById('liberarBtn');
 
+        // Modal de Desvio de Foco
+        const focusModal = document.getElementById('focusModal');
+        const focusJustificativaInput = document.getElementById('focusJustificativaInput');
+        const liberarFocusBtn = document.getElementById('liberarFocusBtn');
+
         function showInactivityModal() {
-            modal.classList.add('active');
+            // Só mostra inatividade se o modal de foco não estiver aberto
+            if (!focusModal.classList.contains('active')) {
+                modal.classList.add('active');
+            }
         }
 
         function resetTimer() {
-            if (modal.classList.contains('active')) return;
+            if (modal.classList.contains('active') || focusModal.classList.contains('active')) return;
             clearTimeout(timer);
             timer = setTimeout(showInactivityModal, INACTIVITY_TIME);
         }
@@ -436,6 +506,18 @@
             }
         });
 
+        // Liberação do Modal de Foco com Justificativa
+        liberarFocusBtn.addEventListener('click', () => {
+            const justificativa = focusJustificativaInput.value.trim();
+            if (justificativa.length >= 5) {
+                focusJustificativaInput.value = '';
+                focusModal.classList.remove('active');
+                resetTimer();
+            } else {
+                alert('A justificativa deve conter no mínimo 5 caracteres.');
+            }
+        });
+
         // Inicializa timer
         resetTimer();
 
@@ -444,8 +526,96 @@
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
                 focusWarning.style.display = 'block';
+                // Quando o usuário volta para a aba, ativamos o modal de foco
+                focusModal.classList.add('active');
+                // Remove o modal de inatividade se ele estiver aberto para priorizar a justificativa de foco
+                modal.classList.remove('active');
             }
         });
+
+        // Restrição de Cópia e Cola
+        const securityText = document.getElementById('securityText');
+        const copyPasteWarning = document.getElementById('copyPasteWarning');
+        const allInputs = document.querySelectorAll('input, textarea');
+
+        // Impede copiar o texto de diretrizes
+        securityText.addEventListener('copy', (e) => {
+            e.preventDefault();
+            triggerCopyPasteWarning();
+        });
+
+        // Impede colar em qualquer campo de entrada
+        allInputs.forEach(input => {
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                triggerCopyPasteWarning();
+            });
+            input.addEventListener('copy', (e) => {
+                e.preventDefault();
+                triggerCopyPasteWarning();
+            });
+        });
+
+        let copyPasteTimeout;
+        function triggerCopyPasteWarning() {
+            copyPasteWarning.style.display = 'block';
+            clearTimeout(copyPasteTimeout);
+            copyPasteTimeout = setTimeout(() => {
+                copyPasteWarning.style.display = 'none';
+            }, 5000);
+        }
+
+        // Relógio em Tempo Real
+        const realtimeClock = document.getElementById('realtimeClock');
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            realtimeClock.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock(); // Execução imediata inicial
+
+        // Verificação de Presença Obrigatória (após 45 segundos de página aberta)
+        const activityCheckModal = document.getElementById('activityCheckModal');
+        const lockdownModal = document.getElementById('lockdownModal');
+        const confirmActivityBtn = document.getElementById('confirmActivityBtn');
+        const checkCountdown = document.getElementById('checkCountdown');
+
+        let checkTimeout = setTimeout(() => {
+            // Se o terminal estiver de alguma forma bloqueado permanentemente
+            if (lockdownModal.classList.contains('active')) return;
+            
+            // Pausa timers de inatividade temporariamente
+            clearTimeout(timer);
+            
+            // Mostra o modal de checagem
+            activityCheckModal.classList.add('active');
+            
+            // Inicia o contador de 10 segundos
+            let secondsLeft = 10;
+            checkCountdown.textContent = secondsLeft;
+            
+            const countdownInterval = setInterval(() => {
+                secondsLeft--;
+                checkCountdown.textContent = secondsLeft;
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    // Bloqueia o terminal permanentemente
+                    activityCheckModal.classList.remove('active');
+                    lockdownModal.classList.add('active');
+                }
+            }, 1000);
+            
+            // Ao confirmar atividade
+            confirmActivityBtn.addEventListener('click', () => {
+                clearInterval(countdownInterval);
+                activityCheckModal.classList.remove('active');
+                resetTimer(); // Retoma o ciclo normal
+            }, { once: true });
+
+        }, 45000); // 45 segundos
     </script>
 </body>
 </html>
