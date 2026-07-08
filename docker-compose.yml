@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: tcc_django_app
+    restart: always
+    ports:
+      - "80:8000" # Mapeia a porta 80 da VPS para a porta 8000 do container
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_DEBUG=False # Desativa modo de depuração para produção
+      - DJANGO_SECRET_KEY=substitua_por_uma_chave_segura_em_producao
