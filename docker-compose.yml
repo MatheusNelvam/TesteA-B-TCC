@@ -6,7 +6,7 @@ services:
     container_name: tcc_django_app
     restart: always
     ports:
-      - "80:8000" # Mapeia a porta 80 da VPS para a porta 8000 do container
+      - "127.0.0.1:8000:8000"
     volumes:
       - .:/app
     environment:
