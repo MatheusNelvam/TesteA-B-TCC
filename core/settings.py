@@ -122,4 +122,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+import os
+from pathlib import Path
+
+# Certifique-se de que o BASE_DIR existe no topo do seu arquivo, mas a configuração do static deve ficar assim:
 STATIC_URL = 'static/'
+
+# ESTA É A LINHA QUE ESTÁ FALTANDO:
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Se você tiver uma pasta de estáticos no seu desenvolvimento local, mantenha ela:
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
