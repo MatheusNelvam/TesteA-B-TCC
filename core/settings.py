@@ -28,8 +28,13 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-km0z_5lfgi**a_
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('true', '1', 'yes', 't')
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split(',')
-ALLOWED_HOSTS = ['173.249.43.143', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['173.249.43.143', 'localhost', '127.0.0.1', 'testeabtcc.duckdns.org' ]
 
+# Adicione estas linhas (essencial para o Django aceitar o DuckDNS no navegador)
+CSRF_TRUSTED_ORIGINS = [
+    'http://testeabtcc.duckdns.org',
+    'https://testeabtcc.duckdns.org'
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,7 +49,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -119,5 +123,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
