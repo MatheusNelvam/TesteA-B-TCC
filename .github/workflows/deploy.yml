@@ -10,13 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Verificar se os Segredos estão carregados
+        run: |
+          if [ -z "${{ secrets.VPS_HOST }}" ]; then echo "ERRO: VPS_HOST está vazio no GitHub!"; else echo "OK: VPS_HOST está preenchido."; fi
+          if [ -z "${{ secrets.VPS_USERNAME }}" ]; then echo "ERRO: VPS_USERNAME está vazio no GitHub!"; else echo "OK: VPS_USERNAME está preenchido."; fi
+          if [ -z "${{ secrets.VPS_PASSWORD }}" ]; then echo "ERRO: VPS_PASSWORD está vazio no GitHub!"; else echo "OK: VPS_PASSWORD está preenchido."; fi
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           password: ${{ secrets.VPS_PASSWORD }}
-          port: ${{ secrets.VPS_PORT || 22 }}
+          port: 22
           script: |
             # Altere para o caminho absoluto da pasta do projeto na sua VPS
             cd /var/www/TesteA-B-TCC || cd ~/TesteA-B-TCC || cd /app
