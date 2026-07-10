@@ -439,11 +439,17 @@
         </div>
     </div>
 
-    <!-- Seção Finalizar Simulação -->
-    <div style="max-width: 1400px; margin: 0 auto 40px auto; padding: 0 20px; width: 100%;">
-        <div style="background-color: #121417; border: 1px solid #ef4444; padding: 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap;">
-            <span style="color: #ef4444; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;">[AÇÃO FINAL] FINALIZAR A SIMULAÇÃO DE CADASTRO DESTE TERMINAL</span>
-            <a href="{% url 'survey' %}" style="background-color: #ef4444; color: #000; padding: 10px 20px; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; transition: all 0.3s; text-align: center;" onmouseover="this.style.backgroundColor='#b91c1c'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='#ef4444'; this.style.color='#000';">Finalizar e Responder Questionário</a>
+    <!-- Modal de Finalização (5º Cadastro) -->
+    <div class="modal-overlay" id="completionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="modal-content" style="background: #121417; border: 2px solid #ef4444; border-radius: 4px; padding: 30px; max-width: 450px; width: calc(100% - 40px); text-align: center; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); font-family: 'Courier Prime', monospace;">
+            <h2 style="color: #ef4444; font-size: 1.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px; border-bottom: 1px solid #3a3f44; padding-bottom: 10px;">[META DE OPERAÇÃO ATINGIDA]</h2>
+            <p style="color: #a0a0a0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">
+                O terminal registrou a conclusão de <strong>{{ clientes|length }} cadastros</strong>. O fluxo operacional mínimo obrigatório foi cumprido.
+            </p>
+            <p style="color: #ffffff; font-size: 0.85rem; background: rgba(239, 68, 68, 0.05); padding: 12px; border-radius: 4px; border: 1px solid #ef4444; margin-bottom: 25px; line-height: 1.5; text-transform: uppercase; font-weight: bold;">
+                Agradecemos imensamente o preenchimento e a sua participação no experimento do nosso TCC! Por favor, responda ao questionário final para concluir a pesquisa.
+            </p>
+            <a href="{% url 'survey' %}" style="display: block; background-color: #ef4444; color: #000; text-decoration: none; padding: 12px 30px; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; border-radius: 2px; cursor: pointer; transition: all 0.3s; width: 100%; text-align: center;" onmouseover="this.style.backgroundColor='#b91c1c'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='#ef4444'; this.style.color='#000';">Responder Questionário Final</a>
         </div>
     </div>
 
@@ -658,6 +664,19 @@
             }, { once: true });
 
         }, 45000); // 45 segundos
+
+        // Pop-up ao atingir 5 ou mais cadastros (conclusão)
+        const totalRegistros = {{ clientes|length }};
+        const completionModal = document.getElementById('completionModal');
+        
+        if (totalRegistros >= 5 && !localStorage.getItem('completion_shown_a')) {
+            completionModal.style.display = 'flex';
+            localStorage.setItem('completion_shown_a', 'true');
+        }
+        
+        if (totalRegistros < 5) {
+            localStorage.removeItem('completion_shown_a');
+        }
     </script>
 </body>
 </html>
