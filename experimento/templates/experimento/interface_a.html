@@ -449,7 +449,7 @@
     <div class="modal-overlay" id="inactivityModal">
         <div class="modal-content">
             <h2>BLOQUEIO DE INATIVIDADE</h2>
-            <p>O sistema detectou 6 segundos de inatividade contínua. Para liberar a interface e retomar o trabalho, você é obrigado a preencher uma justificativa formal abaixo.</p>
+            <p>O sistema detectou 15 segundos de inatividade contínua. Para liberar a interface e retomar o trabalho, você é obrigado a preencher uma justificativa formal abaixo.</p>
             <textarea id="justificativaInput" placeholder="Descreva formalmente o motivo da interrupção do seu fluxo de trabalho..."></textarea>
             <div>
                 <button type="button" id="liberarBtn">Enviar Justificativa e Desbloquear</button>
@@ -511,9 +511,9 @@
         setInterval(updateClock, 1000);
         updateClock(); // Execução imediata inicial
 
-        // Monitoramento de inatividade (6 segundos)
+        // Monitoramento de inatividade (15 segundos)
         let timer;
-        const INACTIVITY_TIME = 6000;
+        const INACTIVITY_TIME = 15000;
         const modal = document.getElementById('inactivityModal');
         const justificativaInput = document.getElementById('justificativaInput');
         const liberarBtn = document.getElementById('liberarBtn');
