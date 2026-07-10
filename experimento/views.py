@@ -3,13 +3,17 @@ from django.views.decorators.http import require_POST
 from .models import Participante, Cliente
 
 def login_view(request):
+    erro = None
     if request.method == 'POST':
         identificador = request.POST.get('identificador', '').strip()
         if identificador:
-            participante, created = Participante.objects.get_or_create(identificador=identificador)
-            request.session['participante_id'] = participante.id
-            return redirect('selecao')
-    return render(request, 'experimento/cadastro.html')
+            if Participante.objects.filter(identificador=identificador).exists():
+                erro = "Este nome já está cadastrado no experimento. Por favor, utilize outro nome ou adicione um sobrenome para diferenciar."
+            else:
+                participante = Participante.objects.create(identificador=identificador)
+                request.session['participante_id'] = participante.id
+                return redirect('selecao')
+    return render(request, 'experimento/cadastro.html', {'erro': erro})
 
 def selecao_view(request):
     participante_id = request.session.get('participante_id')

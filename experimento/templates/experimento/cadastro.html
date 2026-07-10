@@ -117,6 +117,13 @@
         <h1>Teste A/B - Pesquisa TCC</h1>
         <p>Este sistema faz parte de um experimento para um Trabalho de Conclusão de Curso (TCC) da Universidade Federal da Paraíba (UFPB). O objetivo é avaliar a usabilidade e a experiência do usuário em diferentes interfaces de cadastro através de testes A/B.</p>
         <p style="margin-bottom: 20px; font-weight: 500;">Para iniciar sua participação, por favor insira o seu nome completo abaixo.</p>
+        
+        {% if erro %}
+        <div style="background-color: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; padding: 12px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 20px; text-align: left; line-height: 1.4;">
+            ⚠️ {{ erro }}
+        </div>
+        {% endif %}
+        
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
