@@ -295,6 +295,18 @@
 
     <div class="main-layout">
         <div class="left-col">
+            <!-- Novo Nudge: Painel de Progresso com Meta -->
+            <div class="content-box" style="margin-bottom: 0px; border-left: 4px solid #10b981; padding: 20px;">
+                <h3 style="font-size: 0.95rem; font-weight: 700; color: #1f2937; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                    <span>🎯 Progresso do Experimento</span>
+                    <span style="color: #10b981; font-weight: 800; font-size: 1.1rem;" id="goalCounter">0/5</span>
+                </h3>
+                <div style="background-color: #e5e7eb; border-radius: 9999px; height: 10px; width: 100%; overflow: hidden; margin-bottom: 10px;">
+                    <div id="goalProgressBar" style="background: linear-gradient(90deg, #10b981 0%, #34d399 100%); height: 100%; width: 0%; transition: width 0.6s ease-in-out;"></div>
+                </div>
+                <p id="goalProgressText" style="font-size: 0.82rem; color: #4b5563; line-height: 1.4; margin-bottom: 0;"></p>
+            </div>
+
             <!-- Nudge 1: positive reinforcement messages based on active counts -->
             <div class="nudge-sidebar" id="reinforcementBox" style="display: none;">
                 <h3>🌱 Reforço Positivo & Conquista</h3>
@@ -382,10 +394,11 @@
     </div>
 
     <!-- Nudges 2 & 3: Humanized Inactivity Window (Floating Card) -->
-    <div class="recovery-card" id="recoveryCard">
+    <div class="recovery-card" id="recoveryCard" style="border: 2px solid #34d399;">
         <h4>🕒 Janela de Recuperação Biológica</h4>
         <p>Percebemos um momento de pausa no cadastro. Esse intervalo é ótimo para alongar-se ou beber água. Deseja retomar ou estender este momento?</p>
-        <div class="recovery-actions">
+        <p id="wellnessTip" style="font-style: italic; color: #047857; font-weight: 500; font-size: 0.82rem; margin-top: 10px; background: #f0fdf4; padding: 10px; border-radius: 8px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 6px;"></p>
+        <div class="recovery-actions" style="margin-top: 15px;">
             <button class="btn-recover-primary" id="btnResume">Retomar Foco</button>
             <button class="btn-recover-secondary" id="btnDelay">Adiar Lembrete</button>
         </div>
@@ -397,18 +410,43 @@
         const reinforcementBox = document.getElementById('reinforcementBox');
         const reinforcementMessage = document.getElementById('reinforcementMessage');
 
+        // Configuração do Nudge de Progresso da Meta
+        const goalProgressBar = document.getElementById('goalProgressBar');
+        const goalCounter = document.getElementById('goalCounter');
+        const goalProgressText = document.getElementById('goalProgressText');
+        
+        const percentage = Math.min((totalRegistros / 5) * 100, 100);
+        goalProgressBar.style.width = percentage + '%';
+        goalCounter.textContent = `${totalRegistros}/5`;
+        
+        if (totalRegistros < 5) {
+            const remaining = 5 - totalRegistros;
+            goalProgressText.innerHTML = `Falta(m) apenas <strong>${remaining} cadastro(s)</strong> para atingir a meta mínima recomendada para a pesquisa!`;
+        } else {
+            goalProgressText.innerHTML = `🎉 <strong>Meta de 5 cadastros atingida!</strong> Excelente. Você pode cadastrar mais funcionários se desejar ou finalizar clicando no botão abaixo.`;
+        }
+
         if (totalRegistros > 0) {
             reinforcementBox.style.display = 'block';
             if (totalRegistros < 3) {
                 reinforcementMessage.innerHTML = 'Excelente trabalho! Você já registrou <strong>' + totalRegistros + ' funcionário(s)</strong>. Mantenha essa dedicação!';
-            } else if (totalRegistros >= 3 && totalRegistros < 6) {
+            } else if (totalRegistros >= 3 && totalRegistros < 5) {
                 reinforcementMessage.innerHTML = 'Impressionante! Com <strong>' + totalRegistros + ' funcionários cadastrados</strong>, o novo setor está tomando forma com muita agilidade!';
-            } else if (totalRegistros >= 6) {
+            } else if (totalRegistros >= 5) {
                 reinforcementMessage.innerHTML = 'Você atingiu um marco fantástico! <strong>' + totalRegistros + ' funcionários cadastrados</strong>. Agradecemos pelo seu empenho e atenção sustentada!';
             }
         } else {
             reinforcementBox.style.display = 'none';
         }
+
+        // Dicas humanizadas de bem-estar para o Nudge de Inatividade
+        const wellnessTips = [
+            "Beba um copo de água para manter-se hidratado. 💧",
+            "Dê uma piscada rápida nos olhos ou olhe para longe por 20 segundos. 👁️",
+            "Que tal fazer um breve alongamento nos ombros e pescoço? 🧘",
+            "Respire fundo por 3 segundos... e solte devagar. 💨",
+            "Aproveite para relaxar as mãos e os punhos por um instante. 👐"
+        ];
 
         // Timer for inactivity (6 seconds)
         let timer;
@@ -418,6 +456,8 @@
         const btnDelay = document.getElementById('btnDelay');
 
         function showRecoveryCard() {
+            const randomTip = wellnessTips[Math.floor(Math.random() * wellnessTips.length)];
+            document.getElementById('wellnessTip').innerHTML = `💡 <strong>Dica de saúde:</strong> ${randomTip}`;
             recoveryCard.style.display = 'block';
         }
 
