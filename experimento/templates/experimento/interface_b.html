@@ -419,6 +419,21 @@
         </div>
     </div>
 
+    <!-- Modal de Finalização (5º Cadastro) -->
+    <div class="modal-overlay" id="completionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="modal-content" style="background: #ffffff; border: 2px solid #10b981; border-radius: 16px; padding: 30px; max-width: 450px; width: calc(100% - 40px); text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); animation: slideIn 0.4s ease-out;">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
+            <h2 style="color: #059669; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px;">Atividade Concluída!</h2>
+            <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                Parabéns! Você atingiu a meta de cadastrar <strong>{{ clientes|length }} funcionários</strong>.
+            </p>
+            <p style="color: #1e293b; font-size: 0.92rem; font-weight: 500; margin-bottom: 25px; line-height: 1.5;">
+                Agradecemos imensamente o preenchimento e a sua participação no experimento do nosso TCC! Por favor, responda ao questionário final para concluir a pesquisa.
+            </p>
+            <a href="{% url 'survey' %}" style="display: block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; text-decoration: none; padding: 12px 30px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); text-align: center;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='none';">Responder Questionário Final</a>
+        </div>
+    </div>
+
     <script>
         // Count of clients dynamically passed to JS to render micro-milestones
         const totalRegistros = {{ clientes|length }};
@@ -518,6 +533,18 @@
             closeMilestoneBtn.addEventListener('click', () => {
                 milestoneModal.style.display = 'none';
             });
+        }
+
+        // Pop-up ao atingir 5 ou mais cadastros (conclusão)
+        const completionModal = document.getElementById('completionModal');
+        
+        if (totalRegistros >= 5 && !localStorage.getItem('completion_shown')) {
+            completionModal.style.display = 'flex';
+            localStorage.setItem('completion_shown', 'true');
+        }
+        
+        if (totalRegistros < 5) {
+            localStorage.removeItem('completion_shown');
         }
 
         // Initialize Timer
