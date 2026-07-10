@@ -14,12 +14,18 @@
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #f1f5f9;
-            overflow: hidden;
+            padding: 20px;
+        }
+        .ufpb-logo {
+            max-width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
         }
         .container {
             background: rgba(30, 41, 59, 0.7);
@@ -105,8 +111,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Sistema de Simulação</h1>
-        <p>Bem-vindo ao experimento de cadastro de funcionários. Por favor, insira o seu nome para iniciar.</p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Bras%C3%A3o_UFPB.png" alt="Logo UFPB" class="ufpb-logo">
+        <h1>Teste A/B - Pesquisa TCC</h1>
+        <p>Este sistema faz parte de um experimento para um Trabalho de Conclusão de Curso (TCC) da Universidade Federal da Paraíba (UFPB). O objetivo é avaliar a usabilidade e a experiência do usuário em diferentes interfaces de cadastro através de testes A/B.</p>
+        <p style="margin-bottom: 20px; font-weight: 500;">Para iniciar sua participação, por favor insira o seu nome completo abaixo.</p>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
