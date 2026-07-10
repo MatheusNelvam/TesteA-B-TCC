@@ -25,7 +25,7 @@ jobs:
           port: 22
           script: |
             # Altere para o caminho absoluto da pasta do projeto na sua VPS
-            cd /var/www/TesteA-B-TCC || cd ~/TesteA-B-TCC || cd /app
+            cd /var/www/TesteA-B-TCC || cd ~/TesteA-B-TCC
             
             # Puxa as alterações mais recentes da branch main
             git pull origin main
