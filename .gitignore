@@ -22,3 +22,7 @@ Thumbs.db
 .idea/
 *.local
 .env
+
+# Collected static files
+staticfiles/
+

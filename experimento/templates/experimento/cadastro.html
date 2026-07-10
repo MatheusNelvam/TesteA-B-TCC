@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -111,7 +112,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Bras%C3%A3o_UFPB.png" alt="Logo UFPB" class="ufpb-logo">
+        <img src="{% static 'images/logo_ufpb.png' %}" alt="Logo UFPB" class="ufpb-logo">
         <h1>Teste A/B - Pesquisa TCC</h1>
         <p>Este sistema faz parte de um experimento para um Trabalho de Conclusão de Curso (TCC) da Universidade Federal da Paraíba (UFPB). O objetivo é avaliar a usabilidade e a experiência do usuário em diferentes interfaces de cadastro através de testes A/B.</p>
         <p style="margin-bottom: 20px; font-weight: 500;">Para iniciar sua participação, por favor insira o seu nome completo abaixo.</p>
