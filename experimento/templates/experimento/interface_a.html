@@ -343,32 +343,6 @@
                 </div>
             </div>
 
-            <!-- Bloco de Validação de Protocolo Gerencial -->
-            <div class="content-box" id="protocolCard">
-                <h2>Validação de Protocolo Gerencial</h2>
-                <div class="panel-pressure" style="border-color: #ef4444; background-color: rgba(239, 68, 68, 0.03); margin-bottom: 15px;">
-                    <p style="color: #ef4444; font-weight: bold; text-transform: uppercase; font-size: 0.8rem;">[DIRETRIZ DE SEGURANÇA OPERACIONAL NRP-09]</p>
-                    <p id="securityText" style="margin-top: 5px; color: #d0d0d0; font-size: 0.85rem; line-height: 1.5; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;">
-                        De acordo com a Norma Regulamentadora de Produtividade do Departamento (NRP-09), a taxa média de preenchimento de cadastros não deve ultrapassar o limite de tempo estipulado. O código de autenticação único e intransferível desta sessão para validação é: <strong style="color: #ef4444;">SECURITY-PROTO-A74B</strong>. Todas as ações realizadas neste terminal estão sendo registradas pelo setor de segurança cibernética corporativa.
-                    </p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="pergunta1">1. Qual a Norma Regulamentadora citada no texto acima?</label>
-                    <input type="text" id="pergunta1" class="security-input" placeholder="Ex: NRP-00" required autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label for="pergunta2">2. Qual setor está monitorando as ações deste terminal?</label>
-                    <input type="text" id="pergunta2" class="security-input" placeholder="Ex: Recursos Humanos" required autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label for="chaveAutenticacao">3. Insira o código de autenticação citado no texto acima para validar a leitura:</label>
-                    <input type="text" id="chaveAutenticacao" class="security-input" placeholder="Copie e cole o código aqui" required autocomplete="off">
-                </div>
-            </div>
-
             <div class="content-box">
                 <h2>Cadastro de Funcionários</h2>
                 <form action="{% url 'criar_cliente' %}" method="POST">
