@@ -333,6 +333,14 @@
                 <h3>Instruções de Produtividade</h3>
                 <p><strong>Meta Crítica:</strong> Registre todos os colaboradores recrutados sem interrupção. O tempo e a precisão do seu preenchimento estão sendo monitorados ativamente em nossos servidores para fins de auditoria de performance.</p>
             </div>
+
+            <div class="panel-pressure" style="border-color: #ef4444;">
+                <h3>[FILA DE REGISTROS PENDENTES - EXEMPLOS]</h3>
+                <p style="margin-bottom: 10px; font-size: 0.85rem;">Utilize os nomes abaixo como exemplo para realizar os cadastros no formulário:</p>
+                <ul id="suggestedNamesList" style="list-style-type: none; padding-left: 0;">
+                    <!-- Nomes serão inseridos aqui via JavaScript -->
+                </ul>
+            </div>
             
             <div class="system-warnings-container">
                 <div class="warn-banner" id="focusWarning">
@@ -424,6 +432,17 @@
                 Agradecemos imensamente o preenchimento e a sua participação no experimento do nosso TCC! Por favor, responda ao questionário final para concluir a pesquisa.
             </p>
             <a href="{% url 'survey' %}" style="display: block; background-color: #ef4444; color: #000; text-decoration: none; padding: 12px 30px; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; border-radius: 2px; cursor: pointer; transition: all 0.3s; width: 100%; text-align: center;" onmouseover="this.style.backgroundColor='#b91c1c'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='#ef4444'; this.style.color='#000';">Responder Questionário Final</a>
+        </div>
+    </div>
+
+    <!-- Modal Monitoramento Ativo (3º Cadastro) -->
+    <div class="modal-overlay" id="monitoringModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="modal-content" style="background: #121417; border: 2px solid #ef4444; border-radius: 4px; padding: 30px; max-width: 450px; width: calc(100% - 40px); text-align: center; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); font-family: 'Courier Prime', monospace;">
+            <h2 style="color: #ef4444; font-size: 1.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px; border-bottom: 1px solid #3a3f44; padding-bottom: 10px;">[SISTEMA CRÍTICO SOB MONITORAMENTO ATIVO] ⚠️</h2>
+            <p style="color: #ffffff; font-size: 0.85rem; background: rgba(239, 68, 68, 0.05); padding: 12px; border-radius: 4px; border: 1px solid #ef4444; margin-bottom: 25px; line-height: 1.5; text-transform: uppercase; font-weight: bold;">
+                TODAS AS ATIVIDADES, CLIQUES E VELOCIDADE DE DIGITAÇÃO NESTA INTERFACE ESTÃO SENDO REGISTRADOS.
+            </p>
+            <button type="button" id="confirmMonitoringBtn" style="display: block; background-color: #ef4444; color: #000; padding: 12px 30px; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; border-radius: 2px; cursor: pointer; transition: all 0.3s; width: 100%; text-align: center; border: none;" onmouseover="this.style.backgroundColor='#b91c1c'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='#ef4444'; this.style.color='#000';">Entendido</button>
         </div>
     </div>
 
@@ -651,6 +670,88 @@
         if (totalRegistros < 5) {
             localStorage.removeItem('completion_shown_a');
         }
+
+        // Pop-up ao atingir 3 ou mais cadastros (Aviso de Monitoramento Ativo)
+        const monitoringModal = document.getElementById('monitoringModal');
+        const confirmMonitoringBtn = document.getElementById('confirmMonitoringBtn');
+        
+        if (totalRegistros >= 3 && !localStorage.getItem('monitoring_shown_a')) {
+            monitoringModal.style.display = 'flex';
+            monitoringModal.classList.add('active');
+        }
+        
+        if (totalRegistros < 3) {
+            localStorage.removeItem('monitoring_shown_a');
+        }
+
+        if (confirmMonitoringBtn) {
+            confirmMonitoringBtn.addEventListener('click', () => {
+                monitoringModal.style.display = 'none';
+                monitoringModal.classList.remove('active');
+                localStorage.setItem('monitoring_shown_a', 'true');
+            });
+        }
+
+        // Nomes de Exemplo sugeridos
+        const poolNomes = [
+            "Carlos Eduardo Silva", "Ana Beatriz Santos", "Marcos Vinícius Costa", 
+            "Juliana Maria Oliveira", "Felipe Augusto Souza", "Amanda Rodrigues Lima", 
+            "Lucas Gabriel Alves", "Gabriela Ribeiro Rocha", "Thiago Henrique Gomes", 
+            "Patrícia Fernandes Melo", "Bruno Martins Carvalho", "Larissa Soares Barbosa", 
+            "Rodrigo Nogueira Pinto", "Camila Ferreira Araujo", "Diego Cardoso Ramos", 
+            "Mariana Teixeira Vieira", "Gustavo Mendes Correia", "Sofia Nascimento Cunha", 
+            "Ricardo Pereira Santos", "Beatriz Pinheiro Lima"
+        ];
+
+        // Lista de clientes já cadastrados
+        const clientesCadastrados = [
+            {% for cliente in clientes %}
+                "{{ cliente.nome|escapejs }}",
+            {% endfor %}
+        ];
+        
+        function gerarNomesExemplo() {
+            const listElement = document.getElementById('suggestedNamesList');
+            if (!listElement) return;
+            
+            let selecionados = [];
+            const stored = sessionStorage.getItem('suggested_names_a');
+            if (stored) {
+                selecionados = JSON.parse(stored);
+            } else {
+                // Embaralhar e pegar 5 nomes
+                const embaralhado = [...poolNomes].sort(() => 0.5 - Math.random());
+                selecionados = embaralhado.slice(0, 5);
+                sessionStorage.setItem('suggested_names_a', JSON.stringify(selecionados));
+            }
+            
+            listElement.innerHTML = '';
+            selecionados.forEach(nome => {
+                const li = document.createElement('li');
+                li.style.background = '#1c1d22';
+                li.style.border = '1px dashed #ef4444';
+                li.style.padding = '6px 12px';
+                li.style.marginBottom = '6px';
+                li.style.color = '#fff';
+                li.style.fontSize = '0.85rem';
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.alignItems = 'center';
+                
+                const cadastrado = clientesCadastrados.some(c => c.trim().toLowerCase() === nome.trim().toLowerCase());
+                const statusTexto = cadastrado ? "Concluído" : "Aguardando";
+                const statusCor = cadastrado ? "#22c55e" : "#ef4444";
+                
+                if (cadastrado) {
+                    li.style.opacity = '0.7';
+                }
+                
+                li.innerHTML = `<span class="nome-txt" style="${cadastrado ? 'text-decoration: line-through;' : ''}">• ${nome}</span> <span style="color: ${statusCor}; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">${statusTexto}</span>`;
+                listElement.appendChild(li);
+            });
+        }
+        
+        window.addEventListener('DOMContentLoaded', gerarNomesExemplo);
     </script>
 </body>
 </html>
