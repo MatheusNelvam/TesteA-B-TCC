@@ -313,6 +313,19 @@
                 <p id="reinforcementMessage">Ótimo início! Cada funcionário cadastrado auxilia na estruturação ágil do time de RH. Continue em seu próprio ritmo.</p>
             </div>
 
+            <!-- Nudge: Fila de Sugestões de Preenchimento (Default Nudge) -->
+            <div class="content-box" style="border-left: 4px solid #3b82f6;">
+                <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <span>📋 Fila de Contratações Sugeridas</span>
+                </h3>
+                <p style="font-size: 0.82rem; color: #475569; line-height: 1.4; margin-bottom: 12px;">
+                    Clique em qualquer uma das sugestões abaixo para iniciar o cadastro (o Nome e a Matrícula serão preenchidos automaticamente, bastando que você insira o E-mail e o Cargo):
+                </p>
+                <div id="suggestedProfilesContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Perfis serão inseridos dinamicamente aqui -->
+                </div>
+            </div>
+
             <div class="content-box">
                 <h2>Cadastro de Funcionários</h2>
                 <form action="{% url 'criar_cliente' %}" method="POST">
@@ -434,6 +447,103 @@
         const reinforcementBox = document.getElementById('reinforcementBox');
         const reinforcementMessage = document.getElementById('reinforcementMessage');
 
+        // Lista de clientes já cadastrados
+        const clientesCadastrados = [
+            {% for cliente in clientes %}
+                "{{ cliente.nome|escapejs }}",
+            {% endfor %}
+        ];
+
+        // Pool de Perfis Sugeridos (Default Nudge)
+        const poolPerfis = [
+            { nome: "Carlos Eduardo Silva", email: "carlos.silva@empresa.com", cargo: "Analista Financeiro", matricula: "REG-001" },
+            { nome: "Ana Beatriz Santos", email: "ana.santos@empresa.com", cargo: "Desenvolvedora Frontend", matricula: "REG-002" },
+            { nome: "Marcos Vinícius Costa", email: "marcos.costa@empresa.com", cargo: "Analista de Suporte", matricula: "REG-003" },
+            { nome: "Juliana Maria Oliveira", email: "juliana.oliveira@empresa.com", cargo: "Coordenadora de RH", matricula: "REG-004" },
+            { nome: "Felipe Augusto Souza", email: "felipe.souza@empresa.com", cargo: "Designer UX/UI", matricula: "REG-005" },
+            { nome: "Amanda Rodrigues Lima", email: "amanda.lima@empresa.com", cargo: "Gerente de Projetos", matricula: "REG-006" },
+            { nome: "Lucas Gabriel Alves", email: "lucas.alves@empresa.com", cargo: "Analista de Dados", matricula: "REG-007" },
+            { nome: "Gabriela Ribeiro Rocha", email: "gabriela.rocha@empresa.com", cargo: "Assistente Administrativo", matricula: "REG-008" },
+            { nome: "Thiago Henrique Gomes", email: "thiago.gomes@empresa.com", cargo: "Desenvolvedor Backend", matricula: "REG-009" },
+            { nome: "Patrícia Fernandes Melo", email: "patricia.melo@empresa.com", cargo: "Analista de Marketing", matricula: "REG-010" }
+        ];
+
+        function renderSuggestedProfiles() {
+            const container = document.getElementById('suggestedProfilesContainer');
+            if (!container) return;
+
+            let selecionados = [];
+            const stored = sessionStorage.getItem('suggested_profiles_b');
+            if (stored) {
+                selecionados = JSON.parse(stored);
+            } else {
+                // Embaralhar e pegar 5 perfis
+                const embaralhado = [...poolPerfis].sort(() => 0.5 - Math.random());
+                selecionados = embaralhado.slice(0, 5);
+                sessionStorage.setItem('suggested_profiles_b', JSON.stringify(selecionados));
+            }
+
+            container.innerHTML = '';
+            selecionados.forEach(perfil => {
+                const cadastrado = clientesCadastrados.some(c => c.trim().toLowerCase() === perfil.nome.trim().toLowerCase());
+                
+                const item = document.createElement('div');
+                item.style.background = cadastrado ? '#f8fafc' : '#f0f9ff';
+                item.style.border = cadastrado ? '1px solid #e2e8f0' : '1px solid #bae6fd';
+                item.style.borderRadius = '8px';
+                item.style.padding = '10px 14px';
+                item.style.display = 'flex';
+                item.style.justifyContent = 'space-between';
+                item.style.alignItems = 'center';
+                item.style.transition = 'all 0.2s';
+                
+                if (!cadastrado) {
+                    item.style.cursor = 'pointer';
+                    item.addEventListener('mouseover', () => {
+                        item.style.background = '#e0f2fe';
+                        item.style.borderColor = '#7dd3fc';
+                    });
+                    item.addEventListener('mouseout', () => {
+                        item.style.background = '#f0f9ff';
+                        item.style.borderColor = '#bae6fd';
+                    });
+                    item.addEventListener('click', () => {
+                        document.getElementById('nome').value = perfil.nome;
+                        document.getElementById('email').value = ''; // Usuário preenche
+                        document.getElementById('cargo_ou_funcao').value = ''; // Usuário preenche
+                        document.getElementById('codigo_registro').value = perfil.matricula;
+                        
+                        // Efeito visual suave de destaque no formulário
+                        const formContainer = document.getElementById('nome').closest('.content-box');
+                        formContainer.style.transition = 'box-shadow 0.3s';
+                        formContainer.style.boxShadow = '0 0 0 3px rgba(14, 165, 233, 0.2)';
+                        setTimeout(() => {
+                            formContainer.style.boxShadow = 'none';
+                        }, 3000);
+
+                        // Foca no campo de e-mail para incentivar o preenchimento
+                        document.getElementById('email').focus();
+                    });
+                } else {
+                    item.style.opacity = '0.6';
+                }
+
+                const statusCor = cadastrado ? '#22c55e' : '#0284c7';
+                const statusTexto = cadastrado ? 'Cadastrado ✓' : '⚡ Preencher';
+                
+                item.innerHTML = `
+                    <div style="text-align: left;">
+                        <div style="font-size: 0.85rem; font-weight: 600; color: #1e293b; ${cadastrado ? 'text-decoration: line-through;' : ''}">${perfil.nome}</div>
+                        <div style="font-size: 0.75rem; color: #64748b;">${perfil.cargo}</div>
+                    </div>
+                    <span style="font-size: 0.75rem; font-weight: 700; color: ${statusCor}; background: ${cadastrado ? '#f0fdf4' : '#e0f2fe'}; padding: 4px 8px; border-radius: 6px; text-transform: uppercase;">
+                        ${statusTexto}
+                    </span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
         // Configuração do Nudge de Progresso da Meta
         const goalProgressBar = document.getElementById('goalProgressBar');
         const goalCounter = document.getElementById('goalCounter');
@@ -541,7 +651,8 @@
             localStorage.removeItem('completion_shown');
         }
 
-        // Initialize Timer
+        // Initialize
+        renderSuggestedProfiles();
         resetTimer();
     </script>
 </body>
