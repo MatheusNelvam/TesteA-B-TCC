@@ -715,6 +715,7 @@
         
         if (totalRegistros >= 5 && !localStorage.getItem('completion_shown_a')) {
             completionModal.style.display = 'flex';
+            completionModal.classList.add('active');
             localStorage.setItem('completion_shown_a', 'true');
         }
         
