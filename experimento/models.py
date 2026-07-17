@@ -13,6 +13,7 @@ class Cliente(models.Model):
     email = models.CharField(max_length=255)
     cargo_ou_funcao = models.CharField(max_length=255)
     codigo_registro = models.CharField(max_length=255)
+    interface = models.CharField(max_length=20, default='interface-a')
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

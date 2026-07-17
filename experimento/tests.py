@@ -41,7 +41,8 @@ class CadastroFuncionariosTestCase(TestCase):
                 nome=nome,
                 email=email,
                 cargo_ou_funcao=cargo,
-                codigo_registro=registro
+                codigo_registro=registro,
+                interface='interface-a'
             ).exists())
             
             print(f"Teste A {i}/10: Cadastro concluído com sucesso ({nome})")
@@ -74,7 +75,8 @@ class CadastroFuncionariosTestCase(TestCase):
                 nome=nome,
                 email=email,
                 cargo_ou_funcao=cargo,
-                codigo_registro=registro
+                codigo_registro=registro,
+                interface='interface-b'
             ).exists())
             
             print(f"Teste B {i}/10: Cadastro concluído com sucesso ({nome})")

@@ -234,7 +234,16 @@
                 <div>
                     <div class="card-icon">💻</div>
                     <div class="card-title">Interface A</div>
-
+                    <div class="card-stats" style="margin-top: 15px; margin-bottom: 20px; font-size: 0.85rem; color: #94a3b8; text-align: left; display: flex; flex-direction: column; gap: 4px; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="display: flex; justify-content: space-between; gap: 15px;">
+                            <span>Iniciaram (≥ 1):</span>
+                            <strong style="color: #ef4444;">{{ stats_a.iniciaram }}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; gap: 15px;">
+                            <span>Concluíram (≥ 5):</span>
+                            <strong style="color: #f87171;">{{ stats_a.concluiram }}</strong>
+                        </div>
+                    </div>
                 </div>
                 <a href="{% url 'interface_a' %}" class="btn-link btn-a">Iniciar </a>
             </div>
@@ -243,7 +252,16 @@
                 <div>
                     <div class="card-icon">🌱</div>
                     <div class="card-title">Interface B</div>
-
+                    <div class="card-stats" style="margin-top: 15px; margin-bottom: 20px; font-size: 0.85rem; color: #94a3b8; text-align: left; display: flex; flex-direction: column; gap: 4px; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="display: flex; justify-content: space-between; gap: 15px;">
+                            <span>Iniciaram (≥ 1):</span>
+                            <strong style="color: #10b981;">{{ stats_b.iniciaram }}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; gap: 15px;">
+                            <span>Concluíram (≥ 5):</span>
+                            <strong style="color: #34d399;">{{ stats_b.concluiram }}</strong>
+                        </div>
+                    </div>
                 </div>
                 <a href="{% url 'interface_b' %}" class="btn-link btn-b">Iniciar </a>
             </div>
