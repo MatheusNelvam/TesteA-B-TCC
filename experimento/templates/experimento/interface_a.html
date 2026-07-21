@@ -447,17 +447,7 @@
         </div>
     </div>
 
-    <!-- Modal Inatividade -->
-    <div class="modal-overlay" id="inactivityModal">
-        <div class="modal-content">
-            <h2>BLOQUEIO DE INATIVIDADE</h2>
-            <p>O sistema detectou 15 segundos de inatividade contínua. Para liberar a interface e retomar o trabalho, você é obrigado a preencher uma justificativa formal abaixo.</p>
-            <textarea id="justificativaInput" placeholder="Descreva formalmente o motivo da interrupção do seu fluxo de trabalho..."></textarea>
-            <div>
-                <button type="button" id="liberarBtn">Enviar Justificativa e Desbloquear</button>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Relógio Flutuante de Segurança -->
     <div class="floating-clock-container">
@@ -479,44 +469,6 @@
         }
         setInterval(updateClock, 1000);
         updateClock(); // Execução imediata inicial
-
-        // Monitoramento de inatividade (15 segundos)
-        let timer;
-        const INACTIVITY_TIME = 15000;
-        const modal = document.getElementById('inactivityModal');
-        const justificativaInput = document.getElementById('justificativaInput');
-        const liberarBtn = document.getElementById('liberarBtn');
-
-        function showInactivityModal() {
-            modal.classList.add('active');
-        }
-
-        function resetTimer() {
-            if (modal.classList.contains('active')) return;
-            clearTimeout(timer);
-            timer = setTimeout(showInactivityModal, INACTIVITY_TIME);
-        }
-
-        // Eventos que resetam o timer de inatividade
-        const events = ['mousemove', 'keypress', 'click', 'scroll', 'touchstart'];
-        events.forEach(event => {
-            window.addEventListener(event, resetTimer);
-        });
-
-        // Liberação do Modal de Inatividade com Justificativa
-        liberarBtn.addEventListener('click', () => {
-            const justificativa = justificativaInput.value.trim();
-            if (justificativa.length >= 5) {
-                justificativaInput.value = '';
-                modal.classList.remove('active');
-                resetTimer();
-            } else {
-                alert('A justificativa deve conter no mínimo 5 caracteres.');
-            }
-        });
-
-        // Inicializa timer
-        resetTimer();
 
         // Restrição de Cópia e Cola
         const securityText = document.getElementById('securityText');
