@@ -459,17 +459,7 @@
         </div>
     </div>
 
-    <!-- Modal Desvio de Foco (Troca de Tela) -->
-    <div class="modal-overlay" id="focusModal">
-        <div class="modal-content">
-            <h2>DESVIO DE FOCO DETECTADO</h2>
-            <p>O sistema de segurança operacional identificou que você alternou de aba ou saiu da tela ativa deste terminal. Esta ação viola as normas de foco e produtividade contínua sob auditoria corporativa. Para desbloquear este painel e retomar suas atividades, descreva detalhadamente a justificativa técnica para a saída do ambiente de trabalho.</p>
-            <textarea id="focusJustificativaInput" placeholder="Insira aqui uma justificativa formal e elaborada para a troca de tela..."></textarea>
-            <div>
-                <button type="button" id="liberarFocusBtn">Registrar Justificativa e Restaurar Acesso</button>
-            </div>
-        </div>
-    </div>
+    <!-- Modal Inatividade -->
 
     <!-- Modal Verificação de Atividade Automática (45 segundos) -->
     <div class="modal-overlay" id="activityCheckModal">
@@ -520,20 +510,12 @@
         const justificativaInput = document.getElementById('justificativaInput');
         const liberarBtn = document.getElementById('liberarBtn');
 
-        // Modal de Desvio de Foco
-        const focusModal = document.getElementById('focusModal');
-        const focusJustificativaInput = document.getElementById('focusJustificativaInput');
-        const liberarFocusBtn = document.getElementById('liberarFocusBtn');
-
         function showInactivityModal() {
-            // Só mostra inatividade se o modal de foco não estiver aberto
-            if (!focusModal.classList.contains('active')) {
-                modal.classList.add('active');
-            }
+            modal.classList.add('active');
         }
 
         function resetTimer() {
-            if (modal.classList.contains('active') || focusModal.classList.contains('active')) return;
+            if (modal.classList.contains('active')) return;
             clearTimeout(timer);
             timer = setTimeout(showInactivityModal, INACTIVITY_TIME);
         }
@@ -556,30 +538,8 @@
             }
         });
 
-        // Liberação do Modal de Foco com Justificativa
-        liberarFocusBtn.addEventListener('click', () => {
-            const justificativa = focusJustificativaInput.value.trim();
-            if (justificativa.length >= 5) {
-                focusJustificativaInput.value = '';
-                focusModal.classList.remove('active');
-                resetTimer();
-            } else {
-                alert('A justificativa deve conter no mínimo 5 caracteres.');
-            }
-        });
-
         // Inicializa timer
         resetTimer();
-
-        // Monitoramento de desvio de foco (aba do navegador)
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                // Quando o usuário volta para a aba, ativamos o modal de foco
-                focusModal.classList.add('active');
-                // Remove o modal de inatividade se ele estiver aberto para priorizar a justificativa de foco
-                modal.classList.remove('active');
-            }
-        });
 
         // Restrição de Cópia e Cola
         const securityText = document.getElementById('securityText');
