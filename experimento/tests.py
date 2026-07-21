@@ -80,3 +80,32 @@ class CadastroFuncionariosTestCase(TestCase):
             ).exists())
             
             print(f"Teste B {i}/10: Cadastro concluído com sucesso ({nome})")
+
+    def test_presenca_nudges_interface_b(self):
+        """Valida a renderização dos 5 nudges na Interface B"""
+        print("\nValidando a presença dos 5 Nudges na Interface B...")
+        response = self.client.get(reverse('interface_b'))
+        self.assertEqual(response.status_code, 200)
+        
+        # Nudge 1: Barra de Progresso de Meta
+        self.assertContains(response, 'id="goalProgressBar"')
+        self.assertContains(response, 'id="goalCounter"')
+        
+        # Nudge 2: Reforço Positivo
+        self.assertContains(response, 'id="reinforcementBox"')
+        self.assertContains(response, 'Reforço Positivo & Conquista')
+        
+        # Nudge 3: Fila de Sugestões / Default (Autopreenchimento)
+        self.assertContains(response, 'id="suggestedProfilesContainer"')
+        self.assertContains(response, 'Fila de Contratações Sugeridas')
+        
+        # Nudge 4: Micro-marcos de Conquista
+        self.assertContains(response, 'id="milestoneModal"')
+        self.assertContains(response, 'Excelente Progresso!')
+        
+        # Nudge 5: Enquadramento de Bem-Estar / Recuperação Biológica
+        self.assertContains(response, 'id="recoveryCard"')
+        self.assertContains(response, 'Janela de Recuperação Biológica')
+        
+        print("[SUCESSO] Todos os 5 Nudges estao presentes e corretamente renderizados na Interface B!")
+
