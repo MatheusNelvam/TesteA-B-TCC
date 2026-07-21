@@ -459,29 +459,6 @@
         </div>
     </div>
 
-    <!-- Modal Inatividade -->
-
-    <!-- Modal Verificação de Atividade Automática (45 segundos) -->
-    <div class="modal-overlay" id="activityCheckModal">
-        <div class="modal-content">
-            <h2>VERIFICAÇÃO DE PRESENÇA OBRIGATÓRIA</h2>
-            <p>Este terminal está programado para verificar a presença ativa do operador periodicamente. Confirme que você está ativamente trabalhando neste sistema de cadastro.</p>
-            <p style="color: #0ea5e9; font-weight: bold; font-size: 1.1rem; margin-top: 10px;">Tempo Limite de Resposta: <span id="checkCountdown">10</span> segundos</p>
-            <div style="margin-top: 20px;">
-                <button type="button" id="confirmActivityBtn" style="font-size: 1rem; padding: 12px 30px;">SIM, ESTOU ATIVO</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Terminal Bloqueado Permanentemente -->
-    <div class="modal-overlay" id="lockdownModal">
-        <div class="modal-content" style="border-color: #ef4444; box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.2);">
-            <h2 style="color: #ef4444;">TERMINAL BLOQUEADO</h2>
-            <p>O tempo de resposta expirou. Este terminal foi bloqueado permanentemente devido à falta de confirmação de atividade do operador.</p>
-            <p style="color: #dc2626; font-weight: bold;">Contate o administrador do sistema para auditar esta sessão e restabelecer o acesso.</p>
-        </div>
-    </div>
-
     <!-- Relógio Flutuante de Segurança -->
     <div class="floating-clock-container">
         [AUDITORIA DE PRESENÇA - HORA ATUAL: <span id="realtimeClockBottom">00:00:00</span>]
@@ -576,46 +553,6 @@
         }
 
 
-
-        // Verificação de Presença Obrigatória (após 45 segundos de página aberta)
-        const activityCheckModal = document.getElementById('activityCheckModal');
-        const lockdownModal = document.getElementById('lockdownModal');
-        const confirmActivityBtn = document.getElementById('confirmActivityBtn');
-        const checkCountdown = document.getElementById('checkCountdown');
-
-        let checkTimeout = setTimeout(() => {
-            // Se o terminal estiver de alguma forma bloqueado permanentemente
-            if (lockdownModal.classList.contains('active')) return;
-            
-            // Pausa timers de inatividade temporariamente
-            clearTimeout(timer);
-            
-            // Mostra o modal de checagem
-            activityCheckModal.classList.add('active');
-            
-            // Inicia o contador de 10 segundos
-            let secondsLeft = 10;
-            checkCountdown.textContent = secondsLeft;
-            
-            const countdownInterval = setInterval(() => {
-                secondsLeft--;
-                checkCountdown.textContent = secondsLeft;
-                if (secondsLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    // Bloqueia o terminal permanentemente
-                    activityCheckModal.classList.remove('active');
-                    lockdownModal.classList.add('active');
-                }
-            }, 1000);
-            
-            // Ao confirmar atividade
-            confirmActivityBtn.addEventListener('click', () => {
-                clearInterval(countdownInterval);
-                activityCheckModal.classList.remove('active');
-                resetTimer(); // Retoma o ciclo normal
-            }, { once: true });
-
-        }, 45000); // 45 segundos
 
         // Pop-up ao atingir 5 ou mais cadastros (conclusão)
         const totalRegistros = {{ clientes|length }};
