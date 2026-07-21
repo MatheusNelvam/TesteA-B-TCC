@@ -347,9 +347,6 @@
             </div>
             
             <div class="system-warnings-container">
-                <div class="warn-banner" id="focusWarning" style="background-color: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 12px; border-radius: 8px; font-size: 0.85rem; display: none; margin-bottom: 15px;">
-                    [ALERTA GERENCIAL] Desvio de foco operacional detectado e registrado no sistema de supervisão corporativo. Mantenha sua atenção nesta guia de trabalho.
-                </div>
                 <div class="warn-banner" id="copyPasteWarning" style="background-color: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 12px; border-radius: 8px; font-size: 0.85rem; display: none; margin-bottom: 15px;">
                     [ALERTA DE SEGURANÇA] Violação de protocolo detectada! Tentativa de cópia ou colagem de dados bloqueada neste terminal. Digite os dados manualmente.
                 </div>
@@ -575,10 +572,8 @@
         resetTimer();
 
         // Monitoramento de desvio de foco (aba do navegador)
-        const focusWarning = document.getElementById('focusWarning');
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
-                focusWarning.style.display = 'block';
                 // Quando o usuário volta para a aba, ativamos o modal de foco
                 focusModal.classList.add('active');
                 // Remove o modal de inatividade se ele estiver aberto para priorizar a justificativa de foco
