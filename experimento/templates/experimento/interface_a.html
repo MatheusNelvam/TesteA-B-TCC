@@ -323,16 +323,6 @@
     </style>
 </head>
 <body>
-    <!-- Pop-up Temporário de Monitoramento -->
-    <div id="tempMonitoringPopup" class="monitoring-popup">
-        <div style="color: #ef4444; text-transform: uppercase; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 1.1rem;">⚠️</span> ATENÇÃO DO SISTEMA
-        </div>
-        <div style="font-size: 0.8rem; line-height: 1.4; color: #a0a0a0; margin-top: 5px;">
-            Você está sendo monitorado.
-        </div>
-    </div>
-
     <header>
         <div>
             <h1>AMBIENTE DE REGISTRO OPERACIONAL [A]</h1>
@@ -768,35 +758,6 @@
         }
         
         window.addEventListener('DOMContentLoaded', gerarNomesExemplo);
-
-        // Pop-up temporário e intermitente de monitoramento (a cada 30 segundos)
-        window.addEventListener('DOMContentLoaded', () => {
-            const tempPopup = document.getElementById('tempMonitoringPopup');
-            if (tempPopup) {
-                function showPopup() {
-                    tempPopup.classList.remove('fade-out');
-                    tempPopup.classList.add('active');
-                    
-                    // Desaparece após 5 segundos
-                    setTimeout(() => {
-                        tempPopup.classList.add('fade-out');
-                        // Aguarda o fim do fade-out (500ms) para limpar classes e ocultar
-                        setTimeout(() => {
-                            if (tempPopup.classList.contains('fade-out')) {
-                                tempPopup.classList.remove('active');
-                                tempPopup.classList.remove('fade-out');
-                            }
-                        }, 500);
-                    }, 5000);
-                }
-
-                // Dispara o primeiro alerta imediatamente
-                showPopup();
-
-                // Dispara repetidamente a cada 30 segundos
-                setInterval(showPopup, 30000);
-            }
-        });
     </script>
 </body>
 </html>
