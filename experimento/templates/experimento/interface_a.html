@@ -623,8 +623,7 @@
         }, 1000);
 
         const resetInatividade = () => { segundosInatividade = 0; };
-        window.addEventListener('keypress', resetInatividade);
-        window.addEventListener('click', resetInatividade);
+        window.addEventListener('mousemove', resetInatividade);
 
         // 2. Contador de Desvios de Foco (Troca de aba/janela)
         let desviosFoco = parseInt(sessionStorage.getItem('desvios_foco_a') || '0', 10);
