@@ -27,29 +27,25 @@ jobs:
             # Altere para o caminho absoluto da pasta do projeto na sua VPS
             cd /var/www/TesteA-B-TCC || cd ~/TesteA-B-TCC || { echo "ERRO: Pasta do projeto não encontrada na VPS!"; exit 1; }
             
-            # Evita conflito com o banco de dados db.sqlite3 (que está rastreado no Git)
-            # Salvamos o banco de dados da VPS temporariamente, resetamos o arquivo rastreado para o pull passar, e depois restauramos.
+            # 1. Faz backup temporário do banco de dados SQLite para não perder cadastros dos testes
             if [ -f db.sqlite3 ]; then
-              echo "Fazendo backup temporário do banco de dados da VPS..."
               cp db.sqlite3 /tmp/db.sqlite3.bak
-              git checkout db.sqlite3
             fi
             
-            # Puxa as alterações mais recentes da branch main
-            git pull origin main
+            # 2. Força a sincronização limpa e exata com a branch main para evitar qualquer conflito
+            git fetch origin
+            git reset --hard origin/main
             
+            # 3. Restaura o banco de dados dos testes presenciais
             if [ -f /tmp/db.sqlite3.bak ]; then
-              echo "Restaurando o banco de dados da VPS..."
               mv /tmp/db.sqlite3.bak db.sqlite3
             fi
             
-            # Detecta se o comando correto é 'docker compose' ou 'docker-compose'
+            # 4. Detecta o comando Docker e recompila o contêiner
             if docker compose version >/dev/null 2>&1; then
               DOCKER_CMD="docker compose"
             else
               DOCKER_CMD="docker-compose"
             fi
             
-            # Reconstrói e reinicia os containers do Docker
-            $DOCKER_CMD down
             $DOCKER_CMD up -d --build
