@@ -1,18 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teste TCC</title>
     <link rel="icon" type="image/png" href="{% static 'images/logo_ufpb.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -21,6 +24,7 @@
             display: flex;
             flex-direction: column;
         }
+
         header {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -35,6 +39,7 @@
             top: 0;
             z-index: 10;
         }
+
         header h1 {
             color: #0ea5e9;
             font-size: 1.25rem;
@@ -43,14 +48,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .meta-info {
             font-size: 0.85rem;
             color: #64748b;
         }
+
         .meta-info span {
             color: #3b82f6;
             font-weight: 600;
         }
+
         .nav-back {
             background: #f1f5f9;
             border: 1px solid rgba(0, 0, 0, 0.05);
@@ -62,10 +70,12 @@
             font-weight: 600;
             transition: all 0.3s;
         }
+
         .nav-back:hover {
             background: #e2e8f0;
             color: #0f172a;
         }
+
         .main-layout {
             display: flex;
             flex: 1;
@@ -75,23 +85,27 @@
             margin: 0 auto;
             width: 100%;
         }
+
         @media (max-width: 1024px) {
             .main-layout {
                 flex-direction: column;
             }
         }
+
         .left-col {
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+
         .right-col {
             flex: 1.5;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+
         .nudge-sidebar {
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
             border: 1px solid #bbf7d0;
@@ -101,6 +115,7 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
             transition: all 0.3s ease;
         }
+
         .nudge-sidebar h3 {
             font-size: 0.95rem;
             font-weight: 700;
@@ -109,11 +124,13 @@
             align-items: center;
             gap: 8px;
         }
+
         .nudge-sidebar p {
             font-size: 0.85rem;
             line-height: 1.5;
             color: #166534;
         }
+
         .content-box {
             background: #ffffff;
             border: 1px solid rgba(0, 0, 0, 0.05);
@@ -121,6 +138,7 @@
             padding: 28px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
         }
+
         .content-box h2 {
             font-size: 1.15rem;
             font-weight: 700;
@@ -129,9 +147,11 @@
             border-bottom: 1px solid #f1f5f9;
             padding-bottom: 12px;
         }
+
         .form-group {
             margin-bottom: 18px;
         }
+
         label {
             display: block;
             font-size: 0.85rem;
@@ -139,7 +159,9 @@
             color: #475569;
             margin-bottom: 6px;
         }
-        input[type="text"], input[type="email"] {
+
+        input[type="text"],
+        input[type="email"] {
             width: 100%;
             background-color: #f8fafc;
             border: 1px solid #cbd5e1;
@@ -150,11 +172,14 @@
             border-radius: 8px;
             transition: all 0.3s;
         }
-        input[type="text"]:focus, input[type="email"]:focus {
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
             border-color: #0ea5e9;
             background-color: #fff;
             box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
         }
+
         .btn-submit {
             background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
             color: #ffffff;
@@ -168,18 +193,22 @@
             transition: all 0.3s;
             box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.2);
         }
+
         .btn-submit:hover {
             transform: translateY(-1px);
             box-shadow: 0 8px 12px -3px rgba(14, 165, 233, 0.3);
         }
+
         .table-container {
             overflow-x: auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.85rem;
         }
+
         th {
             background-color: #f8fafc;
             color: #475569;
@@ -188,14 +217,17 @@
             border-bottom: 2px solid #e2e8f0;
             font-weight: 600;
         }
+
         td {
             padding: 12px;
             border-bottom: 1px solid #f1f5f9;
             color: #334155;
         }
+
         tr:hover td {
             background-color: #f8fafc;
         }
+
         .btn-delete {
             background: #fff;
             border: 1px solid #e2e8f0;
@@ -207,6 +239,7 @@
             cursor: pointer;
             transition: all 0.2s;
         }
+
         .btn-delete:hover {
             background-color: #fef2f2;
             border-color: #fecaca;
@@ -228,10 +261,19 @@
             display: none;
             animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         @keyframes slideIn {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
+
         .recovery-card h4 {
             font-size: 0.95rem;
             font-weight: 700;
@@ -241,16 +283,19 @@
             align-items: center;
             gap: 8px;
         }
+
         .recovery-card p {
             font-size: 0.85rem;
             color: #475569;
             line-height: 1.4;
             margin-bottom: 16px;
         }
+
         .recovery-actions {
             display: flex;
             gap: 10px;
         }
+
         .btn-recover-primary {
             background: #0ea5e9;
             color: #fff;
@@ -263,9 +308,11 @@
             flex: 1;
             transition: all 0.2s;
         }
+
         .btn-recover-primary:hover {
             background: #0284c7;
         }
+
         .btn-recover-secondary {
             background: #f1f5f9;
             color: #475569;
@@ -278,17 +325,20 @@
             flex: 1;
             transition: all 0.2s;
         }
+
         .btn-recover-secondary:hover {
             background: #e2e8f0;
             color: #0f172a;
         }
     </style>
 </head>
+
 <body>
     <header>
         <div>
             <h1>AMBIENTE DE SUPORTE OPERACIONAL [B]</h1>
-            <div class="meta-info">Voluntário: <span>{{ participante.identificador }}</span> | Workspace de Cadastro de Funcionários</div>
+            <div class="meta-info">Voluntário: <span>{{ participante.identificador }}</span> | Workspace de Cadastro de
+                Funcionários</div>
         </div>
         <a href="{% url 'selecao' %}" class="nav-back">Menu Principal</a>
     </header>
@@ -297,29 +347,37 @@
         <div class="left-col">
             <!-- Novo Nudge: Painel de Progresso com Meta -->
             <div class="content-box" style="margin-bottom: 0px; border-left: 4px solid #10b981; padding: 20px;">
-                <h3 style="font-size: 0.95rem; font-weight: 700; color: #1f2937; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                <h3
+                    style="font-size: 0.95rem; font-weight: 700; color: #1f2937; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
                     <span>🎯 Progresso do Experimento</span>
                     <span style="color: #10b981; font-weight: 800; font-size: 1.1rem;" id="goalCounter">0/5</span>
                 </h3>
-                <div style="background-color: #e5e7eb; border-radius: 9999px; height: 10px; width: 100%; overflow: hidden; margin-bottom: 10px;">
-                    <div id="goalProgressBar" style="background: linear-gradient(90deg, #10b981 0%, #34d399 100%); height: 100%; width: 0%; transition: width 0.6s ease-in-out;"></div>
+                <div
+                    style="background-color: #e5e7eb; border-radius: 9999px; height: 10px; width: 100%; overflow: hidden; margin-bottom: 10px;">
+                    <div id="goalProgressBar"
+                        style="background: linear-gradient(90deg, #10b981 0%, #34d399 100%); height: 100%; width: 0%; transition: width 0.6s ease-in-out;">
+                    </div>
                 </div>
-                <p id="goalProgressText" style="font-size: 0.82rem; color: #4b5563; line-height: 1.4; margin-bottom: 0;"></p>
+                <p id="goalProgressText"
+                    style="font-size: 0.82rem; color: #4b5563; line-height: 1.4; margin-bottom: 0;"></p>
             </div>
 
             <!-- Nudge 1: positive reinforcement messages based on active counts -->
             <div class="nudge-sidebar" id="reinforcementBox" style="display: none;">
                 <h3>🌱 Reforço Positivo & Conquista</h3>
-                <p id="reinforcementMessage">Ótimo início! Cada funcionário cadastrado auxilia na estruturação ágil do time de RH. Continue em seu próprio ritmo.</p>
+                <p id="reinforcementMessage">Ótimo início! Cada funcionário cadastrado auxilia na estruturação ágil do
+                    time de RH. Continue em seu próprio ritmo.</p>
             </div>
 
             <!-- Nudge: Fila de Sugestões de Preenchimento (Default Nudge) -->
             <div class="content-box" style="border-left: 4px solid #3b82f6;">
-                <h3 style="font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                <h3
+                    style="font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
                     <span>📋 Fila de Contratações Sugeridas</span>
                 </h3>
                 <p style="font-size: 0.82rem; color: #475569; line-height: 1.4; margin-bottom: 12px;">
-                    Clique em qualquer uma das sugestões abaixo para iniciar o cadastro (o Nome e a Matrícula serão preenchidos automaticamente, bastando que você insira o E-mail e o Cargo):
+                    Clique em qualquer uma das sugestões abaixo para iniciar o cadastro (o Nome e a Matrícula serão
+                    preenchidos automaticamente, bastando que você insira o E-mail e o Cargo):
                 </p>
                 <div id="suggestedProfilesContainer" style="display: flex; flex-direction: column; gap: 8px;">
                     <!-- Perfis serão inseridos dinamicamente aqui -->
@@ -331,25 +389,29 @@
                 <form action="{% url 'criar_cliente' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="origem" value="interface-b">
-                    
+
                     <div class="form-group">
                         <label for="nome">Nome do Funcionário</label>
-                        <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required autocomplete="off">
+                        <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required
+                            autocomplete="off">
                     </div>
 
                     <div class="form-group">
                         <label for="email">E-mail de Contrato</label>
-                        <input type="email" id="email" name="email" placeholder="Digite o e-mail corporativo" required autocomplete="off">
+                        <input type="email" id="email" name="email" placeholder="Digite o e-mail corporativo" required
+                            autocomplete="off">
                     </div>
 
                     <div class="form-group">
                         <label for="cargo_ou_funcao">Cargo/Função Operacional</label>
-                        <input type="text" id="cargo_ou_funcao" name="cargo_ou_funcao" placeholder="Ex: Analista Financeiro" required autocomplete="off">
+                        <input type="text" id="cargo_ou_funcao" name="cargo_ou_funcao"
+                            placeholder="Ex: Analista Financeiro" required autocomplete="off">
                     </div>
 
                     <div class="form-group">
                         <label for="codigo_registro">Número de Matrícula</label>
-                        <input type="text" id="codigo_registro" name="codigo_registro" placeholder="Ex: REG-001" required autocomplete="off">
+                        <input type="text" id="codigo_registro" name="codigo_registro" placeholder="Ex: REG-001"
+                            required autocomplete="off">
                     </div>
 
                     <button type="submit" class="btn-submit">Cadastrar Funcionário</button>
@@ -374,21 +436,23 @@
                         <tbody>
                             {% for cliente in clientes %}
                             <tr>
-                               <td>{{ cliente.nome }}</td>
-                               <td>{{ cliente.email }}</td>
-                               <td>{{ cliente.cargo_ou_funcao }}</td>
-                               <td>{{ cliente.codigo_registro }}</td>
-                               <td>
-                                   <form action="{% url 'excluir_cliente' cliente.pk %}" method="POST" style="display:inline;">
-                                       {% csrf_token %}
-                                       <input type="hidden" name="origem" value="interface-b">
-                                       <button type="submit" class="btn-delete">Excluir</button>
-                                   </form>
-                               </td>
+                                <td>{{ cliente.nome }}</td>
+                                <td>{{ cliente.email }}</td>
+                                <td>{{ cliente.cargo_ou_funcao }}</td>
+                                <td>{{ cliente.codigo_registro }}</td>
+                                <td>
+                                    <form action="{% url 'excluir_cliente' cliente.pk %}" method="POST"
+                                        style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="origem" value="interface-b">
+                                        <button type="submit" class="btn-delete">Excluir</button>
+                                    </form>
+                                </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="5" style="text-align: center; color: #94a3b8;">Sua lista de novos contratados está vazia. Comece inserindo um funcionário ao lado!</td>
+                                <td colspan="5" style="text-align: center; color: #94a3b8;">Sua lista de novos
+                                    contratados está vazia. Comece inserindo um funcionário ao lado!</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -403,8 +467,11 @@
     <!-- Nudges 2 & 3: Humanized Inactivity Window (Floating Card) -->
     <div class="recovery-card" id="recoveryCard" style="border: 2px solid #34d399;">
         <h4>🕒 Janela de Recuperação Biológica</h4>
-        <p>Percebemos um momento de pausa no cadastro. Esse intervalo é ótimo para alongar-se ou beber água. Deseja retomar ou estender este momento?</p>
-        <p id="wellnessTip" style="font-style: italic; color: #047857; font-weight: 500; font-size: 0.82rem; margin-top: 10px; background: #f0fdf4; padding: 10px; border-radius: 8px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 6px;"></p>
+        <p>Percebemos um momento de pausa no cadastro. Esse intervalo é ótimo para alongar-se ou beber água. Deseja
+            retomar ou estender este momento?</p>
+        <p id="wellnessTip"
+            style="font-style: italic; color: #047857; font-weight: 500; font-size: 0.82rem; margin-top: 10px; background: #f0fdf4; padding: 10px; border-radius: 8px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 6px;">
+        </p>
         <div class="recovery-actions" style="margin-top: 15px;">
             <button class="btn-recover-primary" id="btnResume">Retomar Foco</button>
             <button class="btn-recover-secondary" id="btnDelay">Adiar Lembrete</button>
@@ -412,32 +479,48 @@
     </div>
 
     <!-- Modal de Incentivo Extra (3º Cadastro) -->
-    <div class="modal-overlay" id="milestoneModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000;">
-        <div class="modal-content" style="background: #ffffff; border: 2px solid #10b981; border-radius: 16px; padding: 30px; max-width: 450px; width: calc(100% - 40px); text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); animation: slideIn 0.4s ease-out;">
+    <div class="modal-overlay" id="milestoneModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="modal-content"
+            style="background: #ffffff; border: 2px solid #10b981; border-radius: 16px; padding: 30px; max-width: 450px; width: calc(100% - 40px); text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); animation: slideIn 0.4s ease-out;">
             <div style="font-size: 3rem; margin-bottom: 15px;">🎉</div>
-            <h2 style="color: #059669; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px;">Excelente Progresso!</h2>
+            <h2 style="color: #059669; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px;">Excelente Progresso!
+            </h2>
             <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-                Você acabou de cadastrar o seu <strong>3º funcionário</strong>! Você está indo super bem e está <strong>quase terminando a atividade</strong>.
+                Você acabou de cadastrar o seu <strong>3º funcionário</strong>! Você está indo super bem e está
+                <strong>quase terminando a atividade</strong>.
             </p>
-            <p style="color: #047857; font-size: 0.9rem; font-weight: 600; background: #ecfdf5; padding: 12px; border-radius: 8px; border: 1px solid #a7f3d0; margin-bottom: 25px; line-height: 1.5;">
-                💡 Lembre-se: após concluir a atividade (cadastrar pelo menos 5 funcionários), você poderá descansar 15 minutos para repor suas energias!
+            <p
+                style="color: #047857; font-size: 0.9rem; font-weight: 600; background: #ecfdf5; padding: 12px; border-radius: 8px; border: 1px solid #a7f3d0; margin-bottom: 25px; line-height: 1.5;">
+                💡 Lembre-se: após concluir a atividade (cadastrar pelo menos 5 funcionários), você poderá descansar 15
+                minutos para repor suas energias!
             </p>
-            <button type="button" id="closeMilestoneBtn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 12px 30px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='none';">Continuar Atividade</button>
+            <button type="button" id="closeMilestoneBtn"
+                style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; padding: 12px 30px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);"
+                onmouseover="this.style.transform='translateY(-1px)';"
+                onmouseout="this.style.transform='none';">Continuar Atividade</button>
         </div>
     </div>
 
     <!-- Modal de Finalização (5º Cadastro) -->
-    <div class="modal-overlay" id="completionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000;">
-        <div class="modal-content" style="background: #ffffff; border: 2px solid #10b981; border-radius: 16px; padding: 30px; max-width: 450px; width: calc(100% - 40px); text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); animation: slideIn 0.4s ease-out;">
+    <div class="modal-overlay" id="completionModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="modal-content"
+            style="background: #ffffff; border: 2px solid #10b981; border-radius: 16px; padding: 30px; max-width: 450px; width: calc(100% - 40px); text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); animation: slideIn 0.4s ease-out;">
             <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
-            <h2 style="color: #059669; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px;">Atividade Concluída!</h2>
+            <h2 style="color: #059669; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px;">Atividade Concluída!
+            </h2>
             <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
                 Parabéns! Você atingiu a meta de cadastrar <strong>{{ clientes|length }} funcionários</strong>.
             </p>
             <p style="color: #1e293b; font-size: 0.92rem; font-weight: 500; margin-bottom: 25px; line-height: 1.5;">
-                Agradecemos imensamente o preenchimento e a sua participação no experimento do nosso TCC! Por favor, responda ao questionário final para concluir a pesquisa.
+                Agradecemos imensamente o preenchimento e a sua participação no experimento do nosso TCC! Por favor,
+                responda ao questionário final para concluir a pesquisa.
             </p>
-            <a href="{% url 'survey' %}" style="display: block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; text-decoration: none; padding: 12px 30px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); text-align: center;" onmouseover="this.style.transform='translateY(-1px)';" onmouseout="this.style.transform='none';">Responder Questionário Final</a>
+            <a href="{% url 'survey' %}"
+                style="display: block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; text-decoration: none; padding: 12px 30px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); text-align: center;"
+                onmouseover="this.style.transform='translateY(-1px)';"
+                onmouseout="this.style.transform='none';">Responder Questionário Final</a>
         </div>
     </div>
 
@@ -450,7 +533,7 @@
         // Lista de clientes já cadastrados
         const clientesCadastrados = [
             {% for cliente in clientes %}
-                "{{ cliente.nome|escapejs }}",
+        "{{ cliente.nome|escapejs }}",
             {% endfor %}
         ];
 
@@ -486,7 +569,7 @@
             container.innerHTML = '';
             selecionados.forEach(perfil => {
                 const cadastrado = clientesCadastrados.some(c => c.trim().toLowerCase() === perfil.nome.trim().toLowerCase());
-                
+
                 const item = document.createElement('div');
                 item.style.background = cadastrado ? '#f8fafc' : '#f0f9ff';
                 item.style.border = cadastrado ? '1px solid #e2e8f0' : '1px solid #bae6fd';
@@ -496,7 +579,7 @@
                 item.style.justifyContent = 'space-between';
                 item.style.alignItems = 'center';
                 item.style.transition = 'all 0.2s';
-                
+
                 if (!cadastrado) {
                     item.style.cursor = 'pointer';
                     item.addEventListener('mouseover', () => {
@@ -512,7 +595,7 @@
                         document.getElementById('email').value = ''; // Usuário preenche
                         document.getElementById('cargo_ou_funcao').value = ''; // Usuário preenche
                         document.getElementById('codigo_registro').value = perfil.matricula;
-                        
+
                         // Efeito visual suave de destaque no formulário
                         const formContainer = document.getElementById('nome').closest('.content-box');
                         formContainer.style.transition = 'box-shadow 0.3s';
@@ -530,7 +613,7 @@
 
                 const statusCor = cadastrado ? '#22c55e' : '#0284c7';
                 const statusTexto = cadastrado ? 'Cadastrado ✓' : '⚡ Preencher';
-                
+
                 item.innerHTML = `
                     <div style="text-align: left;">
                         <div style="font-size: 0.85rem; font-weight: 600; color: #1e293b; ${cadastrado ? 'text-decoration: line-through;' : ''}">${perfil.nome}</div>
@@ -548,11 +631,11 @@
         const goalProgressBar = document.getElementById('goalProgressBar');
         const goalCounter = document.getElementById('goalCounter');
         const goalProgressText = document.getElementById('goalProgressText');
-        
+
         const percentage = Math.min((totalRegistros / 5) * 100, 100);
         goalProgressBar.style.width = percentage + '%';
         goalCounter.textContent = `${totalRegistros}/5`;
-        
+
         if (totalRegistros < 5) {
             const remaining = 5 - totalRegistros;
             goalProgressText.innerHTML = `Falta(m) apenas <strong>${remaining} cadastro(s)</strong> para atingir a meta mínima recomendada para a pesquisa!`;
@@ -623,12 +706,12 @@
         // Pop-up ao atingir exatamente 3 cadastros (milestone)
         const milestoneModal = document.getElementById('milestoneModal');
         const closeMilestoneBtn = document.getElementById('closeMilestoneBtn');
-        
+
         if (totalRegistros === 3 && !localStorage.getItem('nudge_3_shown')) {
             milestoneModal.style.display = 'flex';
             localStorage.setItem('nudge_3_shown', 'true');
         }
-        
+
         if (totalRegistros !== 3) {
             localStorage.removeItem('nudge_3_shown');
         }
@@ -641,12 +724,12 @@
 
         // Pop-up ao atingir 5 ou mais cadastros (conclusão)
         const completionModal = document.getElementById('completionModal');
-        
+
         if (totalRegistros >= 5 && !localStorage.getItem('completion_shown')) {
             completionModal.style.display = 'flex';
             localStorage.setItem('completion_shown', 'true');
         }
-        
+
         if (totalRegistros < 5) {
             localStorage.removeItem('completion_shown');
         }
@@ -656,4 +739,5 @@
         resetTimer();
     </script>
 </body>
+
 </html>
