@@ -334,8 +334,13 @@
     <div class="main-layout">
         <div class="left-col">
             <div class="content-box">
-                <h2>Instruções de Produtividade</h2>
-                <p style="font-size: 0.85rem; color: #475569; line-height: 1.5;"><strong>Meta:</strong> Registre todos os colaboradores recrutados. O tempo e a precisão do seu preenchimento estão sendo registrados em nossos servidores para fins de auditoria de performance.</p>
+                <h2>Instruções de Produtividade & Auditoria</h2>
+                <p style="font-size: 0.85rem; color: #475569; line-height: 1.5; margin-bottom: 12px;"><strong>Meta:</strong> Registre todos os colaboradores recrutados. O tempo e a precisão do seu preenchimento estão sendo registrados para auditoria gerencial.</p>
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0ea5e9; padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; color: #334155; line-height: 1.6;">
+                    <div>• Status do Teclado: <span id="epmStatusTeclado" style="color: #0284c7; font-weight: 700;">Monitorando</span></div>
+                    <div>• Tempo de Inatividade em Tela: <span id="epmTimerInatividade" style="color: #3b82f6; font-weight: 700;">0s</span></div>
+                    <div>• Alertas de Desvio de Foco: <span id="epmAlertasFoco" style="color: #0ea5e9; font-weight: 700;">0 detectados</span></div>
+                </div>
             </div>
 
             <div class="content-box">
@@ -607,6 +612,33 @@
             document.addEventListener('DOMContentLoaded', gerarNomesExemplo);
         }
         window.addEventListener('load', gerarNomesExemplo);
+
+        // --- LÓGICA EPM (BOSSWAIER DA INTERFACE A) ---
+        // 1. Contador de Tempo de Inatividade em Tela
+        let segundosInatividade = 0;
+        setInterval(() => {
+            segundosInatividade++;
+            const timerEl = document.getElementById('epmTimerInatividade');
+            if (timerEl) timerEl.innerText = `${segundosInatividade}s`;
+        }, 1000);
+
+        const resetInatividade = () => { segundosInatividade = 0; };
+        window.addEventListener('keypress', resetInatividade);
+        window.addEventListener('click', resetInatividade);
+
+        // 2. Contador de Desvios de Foco (Troca de aba/janela)
+        let desviosFoco = parseInt(sessionStorage.getItem('desvios_foco_a') || '0', 10);
+        const updateAlertasFoco = () => {
+            const el = document.getElementById('epmAlertasFoco');
+            if (el) el.innerText = `${desviosFoco} detectados`;
+        };
+        updateAlertasFoco();
+
+        window.addEventListener('blur', () => {
+            desviosFoco++;
+            sessionStorage.setItem('desvios_foco_a', desviosFoco);
+            updateAlertasFoco();
+        });
     </script>
 </body>
 </html>
