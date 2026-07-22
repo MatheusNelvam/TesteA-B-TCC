@@ -601,7 +601,12 @@
             });
         }
         
-        window.addEventListener('DOMContentLoaded', gerarNomesExemplo);
+        // Execução direta e em múltiplos eventos para garantir renderização perfeita
+        gerarNomesExemplo();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', gerarNomesExemplo);
+        }
+        window.addEventListener('load', gerarNomesExemplo);
     </script>
 </body>
 </html>
